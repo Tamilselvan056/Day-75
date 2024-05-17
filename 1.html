@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout Timer</title>
+  <style>
+    .timer {
+      font-size: 300px;
+      text-align: center;
+    }
+
+    .break {
+      font-size: 24px;
+      text-align: center;
+      color: gray;
+    }
+
+    .workout-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .break-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .total-workout-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .start-stop-button {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer"></div>
+  <div class="break">Break!</div>
+  <div class="workout-time">Workout Time: 50 sec</div>
+  <div class="break-time">Break Time: 10 sec</div>
+  <div class="total-workout-time">Total Workout Time: 0 hours</div>
+  <button class="start-stop-button">Start/Stop</button>
+
+  <script>
+    // Set the initial timer value.
+    var timer = 50;
+
+    // Set the break time.
+    var breakTime = 10;
+
+    // Set the total workout time.
+    var totalWorkoutTime = 0;
+
+    // Set the timer state.
+    var timerState = 'stopped';
+
+    // Start the timer.
+    function startTimer() {
+      timerState = 'running';
+
+      // Start the interval function.
+      var interval = setInterval(function() {
+        // If the timer is at zero, start the break time.
+        if (timer === 0) {
+          timer = breakTime;
+          document.querySelector('.break').style.display = 'block';
+        }
+
+        // Decrement the timer.
+        timer--;
+
+        // Display the timer value.
+        document.querySelector('.timer').innerHTML = timer;
+
+        // If the timer is at zero and the total workout time is not zero, start the timer again.
+        if (timer === 0 && totalWorkoutTime > 0) {
+          totalWorkoutTime--;
+          timer = 50;
+
+          // Add a 10 second break here.
+          setTimeout(function() {
+            timer = 50;
+            document.querySelector('.break').style.display = 'none';
+          }, 10000);
+        }
+
+        // Update the total workout time.
+        document.querySelector('.total-workout-time').innerHTML = 'Total Workout Time: ' + totalWorkoutTime + ' hours';
+
+        // If the total workout time is zero, stop the timer.
+        if (totalWorkoutTime === 0) {
+          clearInterval(interval);
+          timerState = 'stopped';
+        }
+      }, 1000);
+    }
+
+    // Stop the timer.
+    function stopTimer() {
+      timerState = 'stopped';
+
+      // Clear the interval function.
+      clearInterval(interval);
+    }
+
+    // Start the timer on button click.
+    document.querySelector('.start-stop-button').addEventListener('click', function() {
+      if (timerState === 'stopped') {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    });
+  </script>
+</body>
+</html>

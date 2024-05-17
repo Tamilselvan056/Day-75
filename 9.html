@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout Timer</title>
+  <style>
+    body{
+        background-color:aquamarine
+    }
+    .timer {
+      font-size: 350px;
+      text-align: center;
+    }
+
+    .break {
+      font-size: 350px;
+      text-align: center;
+      color: gray;
+    }
+
+    .workout-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .break-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .total-workout-time {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .start-button {
+        box-shadow: inset;
+      font-size: 100px;
+      text-align: center;
+      margin-top: 20px;
+      background-color: lawngreen;
+    }
+
+    .stop-button {
+      font-size: 100px;
+      text-align: center;
+      margin-top: 20px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer"></div>
+  <div class="workout-time">Workout Time: 50 sec</div>
+  <div class="break-time">Break Time: 10 sec</div>
+  <div class="total-workout-time">Total Workout Time: 0 hours</div>
+  <button class="start-button">Start</button>
+  <button class="stop-button">Stop</button>
+
+  <script>
+    // Set the initial timer value.
+    var workoutDuration = 50; // 50 seconds
+    var breakDuration = 10;  // 10 seconds
+    var totalDuration = 45 * 60; // 45 minutes in seconds
+
+    // Set the timer state.
+    var timerState = 'stopped';
+
+    // Set the interval variable.
+    var interval;
+
+    // Set the workout count.
+    var workoutCount = 0;
+
+    // Function to update the timer display.
+    function updateTimerDisplay() {
+      document.querySelector('.timer').innerHTML = workoutDuration;
+      document.querySelector('.workout-time').innerHTML = 'Workout Time: ' + workoutDuration + ' sec';
+      document.querySelector('.break-time').innerHTML = 'Break Time: ' + breakDuration + ' sec';
+      document.querySelector('.total-workout-time').innerHTML = 'Total Workout Time: ' + (workoutCount * workoutDuration / 60) + ' mins';
+    }
+
+    // Start the timer.
+    function startTimer() {
+      timerState = 'running';
+      document.querySelector('.start-button').disabled = true;
+      document.querySelector('.stop-button').disabled = false;
+
+      // Start the interval function.
+      interval = setInterval(function() {
+        updateTimerDisplay();
+
+        if (workoutDuration > 0) {
+          workoutDuration--;
+        } else {
+          if (breakDuration > 0) {
+            document.querySelector('.break').style.display = 'block';
+            breakDuration--;
+          } else {
+            document.querySelector('.break').style.display = 'none';
+            workoutDuration = 50; // Reset workout duration
+            breakDuration = 10; // Reset break duration
+            workoutCount++;
+          }
+        }
+
+        if ((workoutCount * (workoutDuration + breakDuration)) >= totalDuration) {
+          stopTimer();
+        }
+      }, 1000);
+    }
+
+    // Stop the timer.
+    function stopTimer() {
+      timerState = 'stopped';
+      document.querySelector('.start-button').disabled = false;
+      document.querySelector('.stop-button').disabled = true;
+
+      // Clear the interval function.
+      clearInterval(interval);
+    }
+
+    // Start the timer on button click.
+    document.querySelector('.start-button').addEventListener('click', function() {
+      if (timerState === 'stopped') {
+        startTimer();
+      }
+    });
+
+    // Stop the timer on button click.
+    document.querySelector('.stop-button').addEventListener('click', function() {
+      if (timerState === 'running') {
+        stopTimer();
+      }
+    });
+
+    // Initialize the timer display.
+    updateTimerDisplay();
+
+  </script>
+</body>
+</html>

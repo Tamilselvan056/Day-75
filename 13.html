@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .timer {
+      font-size: 80px;
+      color: #333;
+    }
+
+    .start-button, .stop-button {
+      font-size: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .stop-button {
+      background-color: #FF5733;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer">50</div>
+  <button class="start-button">Start</button>
+  <button class="stop-button">Stop</button>
+
+  <script>
+    var countdown = 50;
+    var isWorkoutTime = true;
+    var timerInterval;
+
+    function updateTimerDisplay() {
+      document.querySelector('.timer').textContent = countdown;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(function() {
+        if (countdown <= 0) {
+          isWorkoutTime = !isWorkoutTime;
+          countdown = isWorkoutTime ? 50 : 10;
+        }
+        updateTimerDisplay();
+        countdown--;
+      }, 1000);
+
+      document.querySelector('.start-button').disabled = true;
+      document.querySelector('.stop-button').disabled = false;
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      document.querySelector('.start-button').disabled = false;
+      document.querySelector('.stop-button').disabled = true;
+    }
+
+    document.querySelector('.start-button').addEventListener('click', function() {
+      startTimer();
+    });
+
+    document.querySelector('.stop-button').addEventListener('click', function() {
+      stopTimer();
+    });
+
+    updateTimerDisplay();
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .timer {
+      font-size: 80px;
+      color: #333;
+    }
+
+    .workout-time {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .break-time {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .total-timer {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .start-button, .stop-button {
+      font-size: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .stop-button {
+      background-color: #FF5733;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer">45:00</div>
+  <div class="workout-time">Workout Time: 50 sec</div>
+  <div class="break-time">Break Time: 10 sec</div>
+  <div class="total-timer">Total Timer: 45:00</div>
+  <button class="start-button">Start</button>
+  <button class="stop-button">Stop</button>
+
+  <script>
+    var totalDuration = 45 * 60; // 45 minutes in seconds
+    var countdown = totalDuration;
+    var workoutTime = 50;
+    var breakTime = 10;
+    var isWorkoutTime = true;
+    var timerInterval;
+
+    function updateTimerDisplay() {
+      var minutes = Math.floor(countdown / 60);
+      var seconds = countdown % 60;
+      var totalMinutes = Math.floor(totalDuration / 60);
+      var totalSeconds = totalDuration % 60;
+
+      var timerDisplay = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      var totalTimerDisplay = `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+
+      document.querySelector('.timer').textContent = timerDisplay;
+      document.querySelector('.total-timer').textContent = `Total Timer: ${totalTimerDisplay}`;
+
+      if (isWorkoutTime) {
+        document.querySelector('.workout-time').style.display = 'block';
+        document.querySelector('.break-time').style.display = 'none';
+      } else {
+        document.querySelector('.workout-time').style.display = 'none';
+        document.querySelector('.break-time').style.display = 'block';
+      }
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(function() {
+        if (countdown <= 0) {
+          isWorkoutTime = !isWorkoutTime;
+          countdown = isWorkoutTime ? workoutTime : breakTime;
+        }
+        updateTimerDisplay();
+        countdown--;
+      }, 1000);
+
+      document.querySelector('.start-button').disabled = true;
+      document.querySelector('.stop-button').disabled = false;
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      document.querySelector('.start-button').disabled = false;
+      document.querySelector('.stop-button').disabled = true;
+    }
+
+    document.querySelector('.start-button').addEventListener('click', function() {
+      startTimer();
+    });
+
+    document.querySelector('.stop-button').addEventListener('click', function() {
+      stopTimer();
+    });
+
+    updateTimerDisplay();
+  </script>
+</body>
+</html>

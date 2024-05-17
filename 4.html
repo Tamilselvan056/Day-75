@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout Timer</title>
+  <style>
+    /* Your CSS styles here */
+  </style>
+</head>
+<body>
+  <div class="timer"></div>
+  <div class="break">Break!</div>
+  <div class="workout-time">Workout Time: 50 sec</div>
+  <div class="break-time">Break Time: 10 sec</div>
+  <div class="total-workout-time">Total Workout Time: 0 hours</div>
+  <button class="start-button">Start</button>
+  <button class="stop-button">Stop</button>
+
+  <script>
+    // Set the initial timer value.
+    var timer = 50;
+
+    // Set the break time.
+    var breakTime = 10;
+
+    // Set the total workout time.
+    var totalWorkoutTime = 0;
+
+    // Set the timer state.
+    var timerState = 'stopped';
+
+    // Declare the interval variable outside of startTimer.
+    var interval;
+
+    // Start the timer.
+    function startTimer() {
+      timerState = 'running';
+
+      // Clear the interval initially to avoid issues.
+      clearInterval(interval);
+
+      // Start the interval function.
+      interval = setInterval(function() {
+        // Your timer logic here...
+      }, 1000);
+    }
+
+    // Stop the timer.
+    function stopTimer() {
+      timerState = 'stopped';
+
+      // Clear the interval function.
+      clearInterval(interval);
+    }
+
+    // Start the timer on button click.
+    document.querySelector('.start-button').addEventListener('click', function() {
+      if (timerState === 'stopped') {
+        startTimer();
+      }
+    });
+
+    // Stop the timer on button click.
+    document.querySelector('.stop-button').addEventListener('click', function() {
+      if (timerState === 'running') {
+        stopTimer();
+      }
+    });
+  </script>
+</body>
+</html>
